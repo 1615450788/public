@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>HR</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+    <script>
+        function ToJson() {
+            var $txt = $("#text");
+            var x = $txt.val();
+            x = x.split("\n");
+            for (var i in x) {
+                x[i] = decodeURI(encodeURI(x[i]).replace(/%09/g, '+')).split('+');
+            }
+            if (x.length < 2)throw new error();
+            var data = {};
+            for (var i in x) {
+                if (x[i] && x[i][0] && [x[i][1]]) {
+                    if (typeof data[x[i][0]] == 'undefined') {
+                        data[x[i][0]] = {}
+                    }
+                    if (typeof data[x[i][0]][x[i][1]] == 'undefined') {
+                        data[x[i][0]][x[i][1]] = {}
+                    }
+                    if (typeof data[x[i][0]][x[i][1]][x[i][2]] == 'undefined') {
+                        data[x[i][0]][x[i][1]][x[i][2]] = []
+                    }
+                    data[x[i][0]][x[i][1]][x[i][2]].push(x[i][3]);
+                }
+            }
+            console.log(data);
+            $txt.val(JSON.stringify(data));
+            alert("转换成功!\n请从文本框全选复制进对应的js文件");
+            try {
+
+            }
+            catch (err) {
+                alert("文本格式不正确!\n请从excel文档中直接粘贴过来!\n并确认当前为最新版chrome浏览器");
+            }
+        }
+
+    </script>
+</head>
+<body>
+<div id="base">
+    <textarea id="text" style="width:80%;height:500px;margin: 0px;padding: 0px;"></textarea>
+    <input type="button" onclick="ToJson()" value="转json">
+</div>
+
+
+<li>
+    <div class="newdh" style="margin-top:-15px;">
+        <div class="icoimg">
+            <em><img src="../images/public/clothes.png" data-original=""/>[=type]</em>
+        </div>
+        <div class="ctent">
+            <div class="ctop clothes">
+                <ul>
+                    <li><a href="">[=title]</a></li>
+                </ul>
+            </div>
+            <div class="clothescontentbox">
+                <div class="cdown">
+                    <li><a href="">[=body]</a></li>
+                </div>
+            </div>
+        </div>
+    </div>
+</li>
+
+
+<li>
+    <div class="newdh" style="margin-top:-15px;">
+        <div class="icoimg"><em><img src="../images/public/clothes.png" data-original=""/>服装</em></div>
+        <div class="ctent">
+            <div class="ctop clothes">
+                <ul>
+                    <li><a href="">南开区</a></li>
+                    <li><a href="">旅游商贸区</a></li>
+                    <li><a href="">宝坻区</a></li>
+                </ul>
+            </div>
+            <div class="clothescontentbox">
+                <div class="cdown">
+                    <li><a href="">天津羊毛衫衬衣批发市场</a></li>
+                    <li><a href="">天津天环外贸服装批发市场</a></li>
+                </div>
+                <div class="cdown">
+                    <li><a href="">天津北方美博城</a></li>
+                </div>
+                <div class="cdown">
+                    <li><a href="">京津国际商贸港轻纺城</a></li>
+                </div>
+            </div>
+        </div>
+    </div>
+</li>
+
+</body>
+</html>
