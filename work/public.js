@@ -43,6 +43,10 @@ var route = {
         getAgencyOrder: window.WWWROOT + '/suborders/agencyOrdersList.action',//获取商户订单列表
         getServiceFile: window.WWWROOT +'/servicedocuments/getServiceDocumentsBySid.action',//获取服务所需提供证照信息
         getServiceInfo: window.WWWROOT +'/agencyservice/loadServicePayListData.action',//获取服务信息
+        getUserInfo: window.WWWROOT +'/orders/getUserInfoByOrderId.action',//获取用户企业信息
+        changeMoney: window.WWWROOT +'/orders/updatePrice.action',//服务商子订单改价接口
+        getSelectBody: window.WWWROOT +'/dict/getSelectBody.action?newsType=OrderRecordType&optionId=dictCode&optionName=dictName',//获取预设订单流程记录类型
+        sendOrderRecord: window.WWWROOT +'/deploy/complete.action',//获取预设订单流程记录类型
         pay: window.WWWROOT + "/orders/pay.action"
     },
     goto: function (e, data, target) {
@@ -88,6 +92,17 @@ function ajaxObj(obj) {
 function islogin(data) {
     var islogin = $.toJSON(data).indexOf('<title>登录</title>') >= 0 ? true : false;
     islogin && route.goto("login");
+}
+/**
+ * ajax返回数据是否成功
+ *
+ */
+function dataIsTrue(data,apimsg) {
+    show(data);
+    var x='';
+    x=data.success?true:false;
+    if(!x){show(apimsg+'==>返回数据错误');}
+    return x;
 }
 /**
  * 封装提示消息
@@ -356,6 +371,21 @@ $(function () {
         e.stopPropagation();
         $(this).lqdatetimepicker(option);
     });//时间文本框插件的初始化方式
+    $('.form').validate({
+        onFocus: function() {
+            this.parent().addClass('active');
+            return false;
+        },
+        onBlur: function() {
+            var $parent = this.parent();
+            var _status = parseInt(this.attr('data-status'));
+            $parent.removeClass('active');
+            if (!_status) {
+                $parent.addClass('error');
+            }
+            return false;
+        }
+    });
 })
 
 
@@ -420,14 +450,13 @@ function baseShow(){
                     if(x.Array==null){continue;}
                     x.Reg2=new RegExp("(}|{|"+o+")+","g");
                     x.Array2=ArrayReplace(x.Array,x.Reg2,'');
-                    for(var n in x.Array){
-                        x.str=data[i][o];
+                    for(var n=0;n< x.Array.length;n++){
+                        //x.str=data[i][o];
                         x.value=eval('data[i][o]' + x.Array2[n]);
-                        str = str.replace(x.Array[n], x.value);
+                        str = str.replace(x.Array[n],x.value);
                     }
                 }
                 strs += str;
-
             }
         }
         strs=first?first+strs:strs;

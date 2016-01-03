@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>HR</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+<!--
+    <script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+-->
+    <script>
+        function ToJson() {
+            var $txt = document.getElementById("text");
+            var x = $txt.value;
+            x = x.split("\n");
+            for (var i in x) {
+                x[i] = decodeURI(encodeURI(x[i]).replace(/%09/g, '+')).split('+');
+            }
+            if (x.length < 2)throw new error();
+            var data = {};
+            for (var i in x) {
+                if (x[i] && x[i][0] && [x[i][1]]) {
+                    if (typeof data[x[i][0]] == 'undefined') {
+                        data[x[i][0]] = {}
+                    }
+                    if (typeof data[x[i][0]][x[i][1]] == 'undefined') {
+                        data[x[i][0]][x[i][1]] = {}
+                    }
+                    if (typeof data[x[i][0]][x[i][1]][x[i][2]] == 'undefined') {
+                        data[x[i][0]][x[i][1]][x[i][2]] = []
+                    }
+                    data[x[i][0]][x[i][1]][x[i][2]].push(x[i][3]);
+                }
+            }
+            console.log(data);
+            //$txt.val(JSON.stringify(data));
+            //alert("转换成功!\n请从文本框全选复制进对应的js文件");
+            var x=new dataBase(data);
+            try {
+
+            }
+            catch (err) {
+                alert("文本格式不正确!\n请从excel文档中直接粘贴过来!\n并确认当前为最新版chrome浏览器");
+            }
+        }
+        function dataBase(dataObj){
+            var that=this;
+            this.data=dataObj;
+            this.timeInit=function(date1,date2){
+                var d1=date1.replace(/[ ]/g,'').split('-'),
+                        d2=date2.replace(/[ ]/g,'').split(':'),
+                        Time=new Date(d1[0],d1[1],d1[2],d2[0],d2[1],d2[2]),
+                        upTime=new Date(d1[0],d1[1],d1[2],08,30,00),
+                        downTime=new Date(d1[0],d1[1],d1[2],17,30,00),
+                        lateTime=Math.round((Time.getTime()-upTime.getTime())/(60*1000)),//迟到时间(分钟)
+                        overTime=Math.round((Time.getTime()-downTime.getTime())/(60*1000));//加班时间(分钟)
+                var data={base:Time};
+                if(d2[0]<12){
+                    data.sign="上班"
+                    data.type="迟到";
+                    if(lateTime<=1){
+                        data.time=0
+                    }else{
+                        data.time=lateTime;
+                    }
+                }else{
+                    data.sign="下班";
+                    data.type="加班";
+                    if(overTime<60){
+                        data.time=0
+                    }else{
+                        data.time=overTime;
+                    }
+                }
+                return data;
+            }
+            this.filter=function(date){
+                var newTime={};
+            }
+            this.show=function(){
+                var html='';
+                for(var i in that.data){
+                    html+='<tr><td>'+that.data[i].id+'</td><td>'+that.data[i].name+'</td><td>'+that.data[i].work+'</td><td>'+that.data[i].type+'</td><td>'+that.data[i].time+'</td><td>'+that.data[i].hours+'</td></tr>'
+                }
+                var first='    <tr><td>指纹id</td><td>姓名</td><td>签到时间</td><td>签到类型</td><td>类型耗时（分钟）</td><td>类型耗时（小时）</td></tr>'
+                document.getElementById('content').innerHTML=first+html;
+            }
+            this.action=function(){
+                var x;
+                var obj=[];
+                for(var i in dataObj){
+                    for(var o in dataObj[i]){
+                        for(var n in dataObj[i][o]){
+                            for(var p in dataObj[i][o][n]) {
+                                x=that.timeInit(n,dataObj[i][o][n][p]);
+                                if(x.time<=0){
+                                    continue;
+                                }
+                                obj.push({
+                                    type: x.type,
+                                    sign: x.sign,
+                                    time: x.time,
+                                    hours:Math.round((x.time/60)*10)/10,
+                                    name:o,
+                                    id:i,
+                                    work:n+' '+dataObj[i][o][n][p]
+                                });
+                            }
+                        }
+                    }
+                }
+                that.data=obj;
+                that.show();
+            }
+            this.action();
+        }
+    </script>
+    <style>
+        #content td{
+            border: 1px solid #ADADAD;
+        }
+        table tr{
+            height: 30px;
+            line-height: 30px;
+        }
+    </style>
+</head>
+<body>
+<div id="base">
+    <textarea id="text" style="width:80%;height:300px;margin: 0px;padding: 0px;"></textarea>
+    <input type="button" onclick="ToJson()" value="转json">
+</div>
+<table id="content" style="width: 60%; text-align: center" cellpadding="0" cellspacing="0">
+    <tr><td>指纹id</td><td>姓名</td><td>签到时间</td><td>签到类型</td><td>类型耗时（分钟）</td><td>类型耗时（小时）</td></tr>
+</table>
+</body>
+</html>
