@@ -1,0 +1,80 @@
+@charset "utf-8";
+
+/* CSS Document */
+.form_control {
+    position: relative;
+    display: inline-block;
+    height: 40px;
+}
+.form_control input,.form_control select{
+    height: 30px;
+    line-height: 30px;
+    display: inline-block;
+    float: left;
+    border: 1px #ccc solid;
+    outline: none;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+    -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+    -o-transition: border linear 0.2s, box-shadow linear 0.2s;
+    transition: border linear 0.2s, box-shadow linear 0.2s;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+.form_control input{
+    text-indent: 4px;
+}
+.form_control .error:focus{
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392;
+}
+.form_control .valid:focus{
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #7aba7b;
+}
+.form_control .valid{
+    border: 1px #468847 solid;
+    background-color: #fff;
+}
+.form_control .error{
+    border: 1px #b94a48 solid;
+}
+/*.form_control span{
+    color: #32BC61;
+    float: left;
+    position: absolute;
+    left: 175px;
+    top: 0px;
+    width: 200px;
+    text-align: left;
+    display: block;
+}*/
+span.error{
+    color: red;
+}
+.form_control span.error{
+    white-space: nowrap;
+    color: #FFFFFF;
+    position: absolute;
+    line-height: 25px;
+    left: 0;
+    top: -30px;
+    text-align: left;
+    display: block;
+    background: #FF5959;
+    border: 1px #FF5959 solid;/*FFA6A6 */
+    padding: 0 10px;
+    border-radius: 5px;
+}
+.form_control span.valid{
+    background: url(sucess.png) no-repeat;
+    left: auto;
+    right: 5px;
+    top: 50%;
+    position: absolute;
+    margin-top: -8px;
+    width: 16px;
+    height: 16px;
+}
+.none {
+    display: none;
+}

@@ -1,0 +1,55 @@
+8
+
+dir
+2616
+svn://voserver/XWT/%E4%BB%A3%E7%A0%81/XWT/WebRoot/html/xwt/front/js/plugin/jquery-ui
+svn://voserver
+
+
+
+2016-01-29T04:13:02.139058Z
+1757
+wt
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+36b49178-ec1f-754e-9c3b-8aa6b740dc08
+
+jquery-ui.css
+file
+
+
+
+
+2016-02-15T06:57:17.942802Z
+c323a53287fd9869d67d0ef21a04440b
+2016-01-28T07:51:44.779466Z
+1715
+wt
+
+images
+dir
+
+jquery-ui.js
+file
+
+
+
+
+2016-02-15T06:57:17.942802Z
+ef50bffb8dc7142009acfa8e35895f3e
+2016-01-29T04:13:02.139058Z
+1757
+wt
+
